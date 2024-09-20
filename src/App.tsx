@@ -7,12 +7,12 @@
 
 import React from 'react';
 import RootNavigator from './config/app-navigation';
-import {StatusBar, View} from 'react-native';
+import {StatusBar} from 'react-native';
 
 function App(): React.JSX.Element {
   return (
     <>
-      <StatusBar translucent backgroundColor={'#ffffff01'} />
+      <StatusBar translucent backgroundColor={'#ffffff01'} barStyle={"light-content"} />
       <RootNavigator />
     </>
   );
