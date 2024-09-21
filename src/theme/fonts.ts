@@ -13,6 +13,7 @@ const size = {
   font26: normalize(26),
   font28: normalize(28),
   font30: normalize(30),
+  font56: normalize(56),
   font72: normalize(72),
 };
 

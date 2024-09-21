@@ -1,5 +1,4 @@
 export interface ThemeProps {
-
   fontSize: {
     font7: number;
     font8: number;
@@ -14,6 +13,7 @@ export interface ThemeProps {
     font26: number;
     font28: number;
     font30: number;
+    font56: number;
     font72: number;
   };
   colors: {
@@ -21,8 +21,8 @@ export interface ThemeProps {
     black: string;
     grayColor: string;
     background: string;
-    errorColor:string
-    primaryColor:string
+    errorColor: string;
+    primaryColor: string;
   };
   opacity: {
     opacity15: number;

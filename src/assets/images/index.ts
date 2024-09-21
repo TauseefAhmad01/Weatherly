@@ -1,3 +1,9 @@
 export {default as bgimage} from './bg.png';
 export {default as searchIcon} from './search.png';
 export {default as location} from './pin.png';
+export {default as whiteLocation} from './whitePin.png';
+export {default as sunrise} from './sunrise.png';
+export {default as humidity} from './humidity.png';
+export {default as uv} from './uv.png';
+export {default as wind} from './wind.png';
+export {default as calendar} from './calendar.png';

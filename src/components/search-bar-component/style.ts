@@ -1,7 +1,8 @@
+import {screenHeight, screenWidth} from '@theme/Device';
 import {ThemeProps} from '@theme/themeTypes';
 import {hexToRgbA} from '@utils/hex-to-rgba';
 
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import normalize from 'react-native-normalize';
 
 export const createStyleSheet = (theme: ThemeProps) =>
@@ -18,12 +19,13 @@ export const createStyleSheet = (theme: ThemeProps) =>
       alignSelf: 'flex-end',
       position: 'absolute',
       borderRadius: theme.borderRadius.radius35,
-      top: normalize(9),
-      right: normalize(8),
+      top: normalize(Platform.select({ios: 6, android: 9})),
+      right: normalize(Platform.select({ios: 6, android: 8})),
     },
     searchIcon: {
-      height: normalize(34),
-      width: normalize(34),
+      height: normalize(Platform.select({ios: 24, android: 34})),
+      width: normalize(Platform.select({ios: 24, android: 34})),
+      resizeMode: 'contain',
       //   backgroundColor: 'red',
     },
     searchContainer: {
@@ -38,13 +40,19 @@ export const createStyleSheet = (theme: ThemeProps) =>
       alignItems: 'center',
     },
     pinIcon: {
-      height: normalize(24),
-      width: normalize(24),
+      height: normalize(22),
+      width: normalize(22),
       //   backgroundColor: 'red',
+      marginRight: normalize(6),
     },
     searchTextStyle: {
       fontSize: theme.fontSize.font14,
       flex: 1,
       lineHeight: normalize(16),
+      fontWeight: '500',
+    },
+    emptyText: {
+      paddingHorizontal: normalize(10),
+      paddingVertical: normalize(16),
     },
   });

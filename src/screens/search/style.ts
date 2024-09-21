@@ -25,10 +25,11 @@ export const createStyleSheet = (theme: ThemeProps) => {
     },
     tempContainer: {
       flexDirection: 'row',
+      marginTop: normalize(50),
       height: screenHeight / 3,
     },
     tempText: {
-      fontSize: theme.fontSize.font56,
+      fontSize: theme.fontSize.font72,
       lineHeight: normalize(90),
       fontWeight: '600',
       color: theme.colors.white,
@@ -72,8 +73,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
       justifyContent: 'center',
     },
     extraInfoContainer: {
-      paddingHorizontal: normalize(12),
-      paddingVertical: normalize(16),
+      padding: normalize(10),
       backgroundColor: hexToRgbA(theme.colors.black, 0.3),
       borderRadius: theme.borderRadius.radius12,
       width: (screenWidth - normalize(48)) / 2,
@@ -99,68 +99,6 @@ export const createStyleSheet = (theme: ThemeProps) => {
       fontSize: theme.fontSize.font14,
       lineHeight: normalize(16),
       fontWeight: '400',
-      color: theme.colors.white,
-    },
-    searchIcon: {
-      height: normalize(Platform.select({ios: 24, android: 34})),
-      width: normalize(Platform.select({ios: 24, android: 34})),
-      resizeMode: 'contain',
-    },
-    searchIconContainer: {
-      padding: normalize(6),
-      backgroundColor: hexToRgbA(theme.colors.white, 0.4),
-      alignSelf: 'flex-end',
-      borderRadius: theme.borderRadius.radius35,
-      marginTop: normalize(16),
-    },
-    heading: {
-      fontSize: theme.fontSize.font18,
-      lineHeight: normalize(22),
-      fontWeight: '400',
-      color: theme.colors.white,
-    },
-    calendarIcon: {
-      height: normalize(20),
-      width: normalize(20),
-      resizeMode: 'contain',
-      marginRight: normalize(6),
-    },
-    weatherIcon: {
-      width: normalize(44),
-      height: normalize(44),
-    },
-    day: {
-      fontSize: theme.fontSize.font16,
-      lineHeight: normalize(22),
-      fontWeight: '500',
-      color: theme.colors.white,
-      opacity: theme.opacity.opacity7,
-    },
-    temp: {
-      fontSize: theme.fontSize.font14,
-      lineHeight: normalize(18),
-      fontWeight: '400',
-      color: theme.colors.white,
-      marginTop: normalize(6),
-    },
-    mgt16: {marginTop: normalize(16)},
-    forecastContainer: {
-      backgroundColor: hexToRgbA(theme.colors.black, 0.3),
-      width: (screenWidth - 64) / 3,
-      marginRight: normalize(16),
-      borderRadius: theme.borderRadius.radius12,
-      paddingHorizontal: normalize(12),
-      paddingVertical: normalize(16),
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    spaceBetween: {
-      justifyContent: 'space-between',
-    },
-    dateChanger: {
-      color: theme.colors.white,
-    },
-    forcastDays: {
       color: theme.colors.white,
     },
   });

@@ -1,3 +1,5 @@
 export const navigations = {
-homeScreen:"HomeScreen"
-}
+  homeScreen: 'HomeScreen',
+  searchScreen: 'SearchScreen',
+  detailedScreen: 'DetailedScreen',
+};
