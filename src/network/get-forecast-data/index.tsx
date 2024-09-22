@@ -32,6 +32,15 @@ const getData = async () => {
     // error reading value
   }
 };
+const removeValue = async () => {
+  try {
+    await AsyncStorage.removeItem(appConstants.weather);
+  } catch (e) {
+    // remove error
+  }
+
+  console.log('Done.');
+};
 
 export default function useGetForecastData() {
   const [resp, setResp] = useState<ForecastResponse | null>(null);
@@ -117,10 +126,10 @@ export default function useGetForecastData() {
 
     try {
       const {data} = await axios?.get(endPoint);
+      await removeValue();
+      await storeData(data);
 
-      storeData(data);
-
-      setResp(data);
+      await setResp(data);
     } catch (err: any) {
       setShowError(true);
       const cachedData = await getData();
