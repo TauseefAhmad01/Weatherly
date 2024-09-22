@@ -20,8 +20,6 @@ export const createStyleSheet = (theme: ThemeProps) => {
     bgImage: {
       position: 'absolute',
       flex: 1,
-      width: screenWidth,
-      height: screenHeight,
     },
     tempContainer: {
       flexDirection: 'row',

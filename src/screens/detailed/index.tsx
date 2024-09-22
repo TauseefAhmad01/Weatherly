@@ -1,14 +1,6 @@
-import {
-  FlatList,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {FlatList, ImageBackground, ScrollView, View} from 'react-native';
 import React from 'react';
 import {ImageComponent} from '@components/image-component';
-import {useNavigation} from '@react-navigation/native';
 import useAppTheme from '@theme/theme';
 import {createStyleSheet} from './styles';
 import {bgimage, calendar, humidity, uv, wind} from '@assets/images';
@@ -16,9 +8,6 @@ import {TextComponent} from '@components/text-component';
 import {strings} from '@appconstants';
 import moment from 'moment';
 import {BackComponent} from '@components/back';
-import {hexToRgbA} from '@utils/hex-to-rgba';
-import normalize from 'react-native-normalize';
-import {screenWidth} from '@theme/Device';
 
 interface DetailedScreenProps {
   route: {
@@ -87,17 +76,12 @@ export default function DetailedScreen(props: DetailedScreenProps) {
 
   const renderSeprator = () => <View style={styles.seprator} />;
   return (
-    <View style={styles.container}>
-      <ImageComponent
-        blurRadius={100}
-        source={bgimage}
-        style={styles.bgImage}
-      />
+    <ImageBackground blurRadius={100} source={bgimage} style={styles.container}>
       <ScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.pb}>
-        <BackComponent viewStyle={styles.mgt8} />
+        <BackComponent viewStyle={styles.mgt16} />
         <TextComponent style={styles.tempHeading}>
           {forecast?.day?.avgtemp_c}
           {strings.degreeC}
@@ -137,6 +121,6 @@ export default function DetailedScreen(props: DetailedScreenProps) {
           style={styles.mgt16}
         />
       </ScrollView>
-    </View>
+    </ImageBackground>
   );
 }

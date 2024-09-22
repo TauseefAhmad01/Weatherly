@@ -92,7 +92,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingHorizontal: normalize(12),
+      paddingHorizontal: normalize(16),
 
       paddingVertical: normalize(16),
     },

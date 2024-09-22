@@ -101,5 +101,8 @@ export const createStyleSheet = (theme: ThemeProps) => {
       fontWeight: '400',
       color: theme.colors.white,
     },
+    mg16: {
+      marginTop: normalize(16),
+    },
   });
 };

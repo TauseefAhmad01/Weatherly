@@ -21,6 +21,7 @@ interface Searchrop extends TextInputProps {
   ViewStyle?: ViewStyle;
   selectedItem?: () => {};
   emptyEnable?: boolean;
+  containerStyle?: ViewStyle;
 }
 const searchInput = (props: Searchrop, ref: React.Ref<TextInput>) => {
   const {
@@ -28,6 +29,7 @@ const searchInput = (props: Searchrop, ref: React.Ref<TextInput>) => {
     ViewStyle,
     selectedItem,
     data = [],
+    containerStyle,
     ...remainingProps
   } = props;
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -53,7 +55,7 @@ const searchInput = (props: Searchrop, ref: React.Ref<TextInput>) => {
   };
 
   return (
-    <View>
+    <View style={containerStyle}>
       <TextInput
         ref={ref}
         style={[styles.textInput, ViewStyle]}

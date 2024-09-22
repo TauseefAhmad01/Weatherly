@@ -1,5 +1,6 @@
 import {
   FlatList,
+  ImageBackground,
   RefreshControl,
   TextInput,
   TouchableOpacity,
@@ -292,12 +293,7 @@ export default function HomeScreen(props: homescreenProps) {
   };
 
   return (
-    <View style={styles.container}>
-      <ImageComponent
-        blurRadius={100}
-        source={bgimage}
-        style={styles.bgImage}
-      />
+    <ImageBackground blurRadius={100} source={bgimage} style={styles.container}>
       <Loader isLoading={loading} showOverlay />
 
       {forecast?.length > 0 ? (
@@ -317,6 +313,6 @@ export default function HomeScreen(props: homescreenProps) {
       ) : (
         renderEmptyScreen()
       )}
-    </View>
+    </ImageBackground>
   );
 }
