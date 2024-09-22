@@ -12,6 +12,7 @@ export const createStyleSheet = (theme: ThemeProps) =>
       borderRadius: theme.borderRadius.radius35,
       paddingLeft: normalize(20),
       paddingVertical: normalize(16),
+      color: theme.colors.white,
     },
     searchIconContainer: {
       padding: normalize(6),

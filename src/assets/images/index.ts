@@ -8,3 +8,4 @@ export {default as uv} from './uv.png';
 export {default as wind} from './wind.png';
 export {default as calendar} from './calendar.png';
 export {default as back} from './back.png';
+export {default as error} from './error.png';

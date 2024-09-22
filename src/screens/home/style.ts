@@ -25,7 +25,11 @@ export const createStyleSheet = (theme: ThemeProps) => {
     },
     tempContainer: {
       flexDirection: 'row',
-      height: screenHeight / 3,
+    },
+    mainConatiner: {
+      justifyContent: 'space-around',
+      // flex: 0.6,
+      marginVertical: normalize(24),
     },
     tempText: {
       fontSize: theme.fontSize.font56,
@@ -46,7 +50,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
       lineHeight: normalize(42),
       fontWeight: '400',
       color: theme.colors.white,
-      alignSelf: 'center',
+      // alignSelf: 'center',
     },
     locationText: {
       fontSize: theme.fontSize.font22,
@@ -64,11 +68,23 @@ export const createStyleSheet = (theme: ThemeProps) => {
       alignItems: 'center',
     },
     weatherAnimation: {
-      flex: 0.7,
-      marginTop: normalize(30),
+      // flex: 0.7,
+      // marginTop: normalize(30),
+      minHeight: normalize(100),
+      flex: 1,
+    },
+    weatherAnimationImage: {
+      width: normalize(130),
+      height: normalize(130),
+      alignSelf: 'flex-end',
     },
     flex0p5: {
       flex: 0.5,
+    },
+    lottiContainer: {
+      width: '100%',
+      height: '100%',
+      flex: 1,
     },
     justifyCenter: {
       justifyContent: 'center',
@@ -81,6 +97,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
       width: (screenWidth - normalize(48)) / 2,
       marginTop: normalize(16),
       alignItems: 'center',
+      marginRight: normalize(16),
     },
     extrainfo: {flexWrap: 'wrap', justifyContent: 'space-between'},
     infoImage: {
@@ -111,7 +128,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
     },
     searchIconContainer: {
       padding: normalize(6),
-      backgroundColor: hexToRgbA(theme.colors.white, 0.4),
+      backgroundColor: hexToRgbA(theme.colors.black, 0.3),
       alignSelf: 'flex-end',
       borderRadius: theme.borderRadius.radius35,
       marginTop: normalize(16),
@@ -170,6 +187,41 @@ export const createStyleSheet = (theme: ThemeProps) => {
     },
     pb: {
       paddingBottom: normalize(24),
+    },
+    emptyScreenContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      flex: 1,
+    },
+    errorImage: {
+      width: normalize(150),
+      height: normalize(150),
+    },
+    oopsHeading: {
+      fontSize: theme.fontSize.font24,
+      lineHeight: normalize(30),
+      color: theme.colors.white,
+      marginBottom: normalize(20),
+    },
+    errorValue: {
+      fontSize: theme.fontSize.font18,
+      lineHeight: normalize(24),
+      color: theme.colors.white,
+      marginTop: normalize(40),
+      textAlign: 'center',
+    },
+    buttonContainer: {
+      paddingHorizontal: normalize(16),
+      paddingVertical: normalize(12),
+      borderRadius: theme.borderRadius.radius8,
+      backgroundColor: hexToRgbA(theme.colors.black, 0.3),
+      marginTop: normalize(16),
+    },
+    buttonText: {
+      fontSize: theme.fontSize.font18,
+      lineHeight: normalize(24),
+      color: hexToRgbA(theme.colors.white, 0.9),
+      textAlign: 'center',
     },
   });
 };

@@ -3,21 +3,42 @@ import axios from 'axios';
 import {apiEndPoints, apiKey} from '@network/constant';
 import {humidity, sunrise, uv, wind} from '@assets/images';
 import moment from 'moment';
-import {strings} from '@appconstants';
-
+import {appConstants, strings} from '@appconstants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNetInfo} from '@react-native-community/netinfo';
 interface ForecastProps {
   days?: number;
   location: string;
 }
 
 interface ForecastResponse {
-  forecast?: any;
+  forecast?: any[];
 }
+
+const storeData = async value => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(appConstants.weather, jsonValue);
+  } catch (e) {
+    // saving error
+  }
+};
+
+const getData = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(appConstants.weather);
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+  }
+};
 
 export default function useGetForecastData() {
   const [resp, setResp] = useState<ForecastResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [showError, setShowError] = useState<boolean>(true);
+  const {isConnected} = useNetInfo();
 
   function addHttpsToIcons(data) {
     if (data?.day?.condition?.icon) {
@@ -31,7 +52,6 @@ export default function useGetForecastData() {
         }
       });
     }
-    console.log(data);
     return data;
   }
 
@@ -46,7 +66,7 @@ export default function useGetForecastData() {
       currentWeather: {
         temp: apiResponse?.current?.temp_c + strings.degreeC,
         description: apiResponse?.current?.condition?.text,
-        weatherImage: apiResponse?.current?.condition?.icon,
+        weatherImage: 'https:' + apiResponse?.current?.condition?.icon,
         feelsLike: apiResponse?.current?.feelslike_c + strings.degreeC,
         maxTemp:
           apiResponse?.forecast?.forecastday?.[0]?.day?.maxtemp_c +
@@ -98,13 +118,29 @@ export default function useGetForecastData() {
     try {
       const {data} = await axios?.get(endPoint);
 
+      storeData(data);
+
       setResp(data);
     } catch (err: any) {
+      setShowError(true);
+      const cachedData = await getData();
+      if (!cachedData) {
+        setShowError(false);
+      } else if (!isConnected) {
+        setResp(cachedData);
+        return;
+      }
       setError(err?.message || 'Something went wrong');
     } finally {
       setLoading(false);
     }
   };
 
-  return {data: parseWeatherData(resp), fetchForecast, loading, error};
+  return {
+    data: parseWeatherData(resp),
+    fetchForecast,
+    loading,
+    error,
+    showError,
+  };
 }

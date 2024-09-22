@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {TextInput, View} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {SearchInput} from '@components/search-bar-component';
 import {strings} from '@appconstants';
@@ -6,7 +6,6 @@ import {createStyleSheet} from './style';
 import useAppTheme from '@theme/theme';
 import {bgimage} from '@assets/images';
 import {ImageComponent} from '@components/image-component';
-import {TextComponent} from '@components/text-component';
 import {useNavigation} from '@react-navigation/native';
 import useAutocomplete from '@network/get-auto-complete';
 import {debounce} from 'lodash';
@@ -45,7 +44,7 @@ export default function SearchCity() {
       <SearchInput
         ref={inputRef}
         data={data || []}
-        emptyEnable={searchValue.length > 2 || loading}
+        emptyEnable={searchValue.length > 2 && !loading}
         placeholder={strings.searchCity}
         onChangeText={debouncedFetchSearch}
         placeholderTextColor={theme.colors.white}
