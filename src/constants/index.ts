@@ -3,6 +3,11 @@ export const strings = {
   sorryNoCityFOund: 'Sorry no city found',
   dailyForeCast: 'Daily forecast',
   forecastDays: 'days forecast',
+  degree: ' °',
+  degreeC: ' °C',
+  kmph: 'kmph',
+  percentage: ' %',
+  feelsLike: 'feels like',
 };
 
 export const appConstants = {

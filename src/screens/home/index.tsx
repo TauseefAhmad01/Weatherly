@@ -1,7 +1,6 @@
 import {
   FlatList,
   ScrollView,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -11,7 +10,6 @@ import useAppTheme from '../../theme/theme';
 import {createStyleSheet} from './style';
 import {bgimage, calendar, searchIcon, whiteLocation} from '@assets/images';
 import {ImageComponent} from '@components/image-component';
-import {SearchInput} from '@components/search-bar-component';
 import {appConstants, strings} from '@appconstants';
 import {TextComponent} from '@components/text-component';
 import LottieView from 'lottie-react-native';
@@ -19,10 +17,6 @@ import cloudy from '@utils/Json/cloudy.json';
 import useGetForecastData from '@network/get-forecast-data';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {navigations} from '@config/app-navigation/constants';
-import normalize from 'react-native-normalize';
-import {screenWidth} from '@theme/Device';
-import {hexToRgbA} from '@utils/hex-to-rgba';
-import Animated from 'react-native-reanimated';
 
 interface homescreenProps {
   route: {
@@ -83,22 +77,20 @@ export default function HomeScreen(props: homescreenProps) {
   };
   const renderForecast = ({item, index}) => {
     return (
-      <Animated.View
-        style={styles.forecastContainer}
-        sharedTransitionTag="test">
+      <TouchableOpacity
+        onPress={() => {
+          let params = {
+            forecast: item.forecastday,
+          };
+          navigation.navigate(navigations.detailedScreen, params);
+        }}
+        style={styles.forecastContainer}>
         <ImageComponent isUrl uri={item.icon} style={styles.weatherIcon} />
-
-        <TextComponent
-          onPress={() => {
-            navigation.navigate(navigations.detailedScreen);
-          }}
-          style={styles.day}>
-          {item?.date}
-        </TextComponent>
+        <TextComponent style={styles.day}>{item?.date}</TextComponent>
         <TextComponent style={styles.temp}>
-          {item?.high}/{item?.low}
+          {item?.high} {item?.low}
         </TextComponent>
-      </Animated.View>
+      </TouchableOpacity>
     );
   };
 
@@ -109,7 +101,10 @@ export default function HomeScreen(props: homescreenProps) {
         source={bgimage}
         style={styles.bgImage}
       />
-      <ScrollView bounces={false}>
+      <ScrollView
+        contentContainerStyle={styles.pb}
+        showsVerticalScrollIndicator={false}
+        bounces={false}>
         <View>
           <TouchableOpacity
             onPress={navigateToSearch}
@@ -122,18 +117,13 @@ export default function HomeScreen(props: homescreenProps) {
           <View
             style={{
               justifyContent: 'space-around',
-              flex: 0.5,
+              flex: 0.6,
             }}>
             <View>
               <TextComponent textStyle={styles.tempText}>
                 {currentWeather.temp}
               </TextComponent>
-              <TextComponent
-                onPress={async () => {
-                  await fetchForecast({days: 1, location: 'London'});
-                  console.warn(JSON.stringify(data), 'ujn hgbvgtf');
-                }}
-                textStyle={styles.weatherText}>
+              <TextComponent textStyle={styles.weatherText}>
                 {currentWeather?.description}
               </TextComponent>
             </View>
@@ -149,7 +139,8 @@ export default function HomeScreen(props: homescreenProps) {
                 />
               </View>
               <TextComponent style={styles.highLowTemp}>
-                {currentWeather.maxTemp}/{currentWeather.minTemp}
+                {currentWeather.maxTemp}/{currentWeather.minTemp}{' '}
+                {strings.feelsLike} {currentWeather.feelsLike}
               </TextComponent>
             </View>
           </View>
@@ -162,22 +153,7 @@ export default function HomeScreen(props: homescreenProps) {
             />
           </View>
         </View>
-        <Animated.View style={styles.forecastContainer}>
-          <ImageComponent
-            isUrl
-            uri={'https://cdn.weatherapi.com/weather/64x64/day/302.png'}
-            style={styles.weatherIcon}
-          />
 
-          <TextComponent
-            onPress={() => {
-              navigation.navigate(navigations.detailedScreen);
-            }}
-            style={styles.day}>
-            fghjnk
-          </TextComponent>
-          <TextComponent style={styles.temp}>yhbjhkmjmj</TextComponent>
-        </Animated.View>
         <View>
           <View style={[styles.flexRow, styles.spaceBetween]}>
             <View style={styles.flexRow}>

@@ -32,9 +32,10 @@ export const createStyleSheet = (theme: ThemeProps) => {
       lineHeight: normalize(90),
       fontWeight: '600',
       color: theme.colors.white,
+      alignSelf: 'center',
     },
     highLowTemp: {
-      fontSize: theme.fontSize.font16,
+      fontSize: theme.fontSize.font12,
       lineHeight: normalize(27),
       fontWeight: '400',
       color: theme.colors.white,
@@ -45,6 +46,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
       lineHeight: normalize(42),
       fontWeight: '400',
       color: theme.colors.white,
+      alignSelf: 'center',
     },
     locationText: {
       fontSize: theme.fontSize.font22,
@@ -100,6 +102,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
       lineHeight: normalize(16),
       fontWeight: '400',
       color: theme.colors.white,
+      marginTop: normalize(4),
     },
     searchIcon: {
       height: normalize(Platform.select({ios: 24, android: 34})),
@@ -135,9 +138,10 @@ export const createStyleSheet = (theme: ThemeProps) => {
       fontWeight: '500',
       color: theme.colors.white,
       opacity: theme.opacity.opacity7,
+      marginTop: normalize(8),
     },
     temp: {
-      fontSize: theme.fontSize.font14,
+      fontSize: theme.fontSize.font12,
       lineHeight: normalize(18),
       fontWeight: '400',
       color: theme.colors.white,
@@ -146,10 +150,10 @@ export const createStyleSheet = (theme: ThemeProps) => {
     mgt16: {marginTop: normalize(16)},
     forecastContainer: {
       backgroundColor: hexToRgbA(theme.colors.black, 0.3),
-      width: (screenWidth - 64) / 3,
+      width: (screenWidth - normalize(64)) / 3,
       marginRight: normalize(16),
       borderRadius: theme.borderRadius.radius12,
-      paddingHorizontal: normalize(12),
+      paddingHorizontal: normalize(8),
       paddingVertical: normalize(16),
       justifyContent: 'center',
       alignItems: 'center',
@@ -159,9 +163,13 @@ export const createStyleSheet = (theme: ThemeProps) => {
     },
     dateChanger: {
       color: theme.colors.white,
+      width: normalize(Platform.OS == 'android' ? 18 : 10),
     },
     forcastDays: {
       color: theme.colors.white,
+    },
+    pb: {
+      paddingBottom: normalize(24),
     },
   });
 };

@@ -44,85 +44,13 @@ export default function SearchCity() {
       />
       <SearchInput
         ref={inputRef}
-        data={data}
+        data={data || []}
         emptyEnable={searchValue.length > 2 || loading}
         placeholder={strings.searchCity}
         onChangeText={debouncedFetchSearch}
         placeholderTextColor={theme.colors.white}
         selectedItem={handleSelectedCity}
       />
-      <TextComponent
-        onPress={() => {
-          navigation.goBack();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          inputRef?.current?.focus();
-        }}>
-        c vbhjnkml,
-      </TextComponent>
-      <TextComponent
-        onPress={() => {
-          fetchSearch('okokokoko');
-        }}>
-        c vbhjnkml,
-      </TextComponent>
     </View>
   );
 }

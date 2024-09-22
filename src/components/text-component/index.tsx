@@ -1,7 +1,6 @@
 import {Text, TextProps, TextStyle} from 'react-native';
 import React from 'react';
 import {createStyleSheet} from './style';
-import {useTheme} from '@react-navigation/native';
 import useAppTheme from '@theme/theme';
 
 interface TextType extends TextProps {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import {apiEndPoints, apiKey} from '@network/constant';
 import {humidity, sunrise, uv, wind} from '@assets/images';
 import moment from 'moment';
+import {strings} from '@appconstants';
 
 interface ForecastProps {
   days?: number;
@@ -18,6 +19,24 @@ export default function useGetForecastData() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  function addHttpsToIcons(data) {
+    if (data?.day?.condition?.icon) {
+      data.day.condition.icon = 'https:' + data.day.condition.icon;
+    }
+
+    if (data?.hour?.length > 0) {
+      data.hour.forEach(hourlyData => {
+        if (hourlyData?.condition?.icon) {
+          hourlyData.condition.icon = 'https:' + hourlyData.condition.icon;
+        }
+      });
+    }
+    console.log(data);
+    return data;
+  }
+
+  const DeepClone = data => JSON.parse(JSON.stringify(data));
+
   function parseWeatherData(apiResponse) {
     const parsedData = {
       location: {
@@ -25,25 +44,31 @@ export default function useGetForecastData() {
         country: apiResponse?.location?.country,
       },
       currentWeather: {
-        temp: apiResponse?.current?.temp_c + ' °',
+        temp: apiResponse?.current?.temp_c + strings.degreeC,
         description: apiResponse?.current?.condition?.text,
         weatherImage: apiResponse?.current?.condition?.icon,
-        feelsLike: apiResponse?.current?.feelslike_c,
-        maxTemp: apiResponse?.forecast?.forecastday?.[0]?.day?.maxtemp_c + ' °',
-        minTemp: apiResponse?.forecast?.forecastday?.[0]?.day?.mintemp_c + ' °',
+        feelsLike: apiResponse?.current?.feelslike_c + strings.degreeC,
+        maxTemp:
+          apiResponse?.forecast?.forecastday?.[0]?.day?.maxtemp_c +
+          strings.degree,
+        minTemp:
+          apiResponse?.forecast?.forecastday?.[0]?.day?.mintemp_c +
+          strings.degree,
       },
 
       forecast: apiResponse?.forecast?.forecastday?.map(day => ({
         date: moment(day?.date).format('dddd'),
-        high: day?.day?.maxtemp_c + ' °',
-        low: day?.day?.mintemp_c + ' °',
+        high: day?.day?.maxtemp_c + strings.degree,
+        low: day?.day?.mintemp_c + strings.degree,
         icon: 'https:' + day?.day?.condition?.icon,
         desc: day?.day?.condition?.text,
+        forecastday: addHttpsToIcons(DeepClone(day)),
       })),
+
       extraInfo: [
         {
           label: 'Humidity',
-          value: apiResponse?.current?.humidity,
+          value: apiResponse?.current?.humidity + strings.percentage,
           image: humidity,
         },
         {label: 'UV index', value: apiResponse?.current?.uv, image: uv},
