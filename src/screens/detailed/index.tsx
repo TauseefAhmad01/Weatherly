@@ -8,27 +8,23 @@ import {TextComponent} from '@components/text-component';
 import {strings} from '@appconstants';
 import moment from 'moment';
 import {BackComponent} from '@components/back';
+import {useSelector} from 'react-redux';
 
-interface DetailedScreenProps {
-  route: {
-    params: {
-      forecast?: any;
-    };
-  };
-}
-
-export default function DetailedScreen(props: DetailedScreenProps) {
-  const {forecast} = props.route.params || {};
+export default function DetailedScreen() {
   const {theme} = useAppTheme();
   const styles = createStyleSheet(theme);
+  const {selectedForecast} = useSelector(state => state.weather);
 
   let extraInfo = [
-    {value: forecast?.day?.maxwind_kph + ' ' + strings.kmph, image: wind},
     {
-      value: forecast?.day?.avghumidity + ' ' + strings.percentage,
+      value: selectedForecast?.day?.maxwind_kph + ' ' + strings.kmph,
+      image: wind,
+    },
+    {
+      value: selectedForecast?.day?.avghumidity + ' ' + strings.percentage,
       image: humidity,
     },
-    {value: forecast?.day?.uv, image: uv},
+    {value: selectedForecast?.day?.uv, image: uv},
   ];
   const renderItem = ({item, index}) => {
     return (
@@ -83,16 +79,16 @@ export default function DetailedScreen(props: DetailedScreenProps) {
         contentContainerStyle={styles.pb}>
         <BackComponent viewStyle={styles.mgt16} />
         <TextComponent style={styles.tempHeading}>
-          {forecast?.day?.avgtemp_c}
+          {selectedForecast?.day?.avgtemp_c}
           {strings.degreeC}
         </TextComponent>
         <TextComponent style={styles.currentDay}>
-          {moment(forecast.date).format('dddd')}
+          {moment(selectedForecast.date).format('dddd')}
         </TextComponent>
 
         <ImageComponent
           isUrl
-          uri={forecast?.day?.condition?.icon}
+          uri={selectedForecast?.day?.condition?.icon}
           style={styles.weatherImage}
         />
 
@@ -115,7 +111,7 @@ export default function DetailedScreen(props: DetailedScreenProps) {
           bounces={false}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.detailedListContainer}
-          data={forecast.hour || []}
+          data={selectedForecast.hour || []}
           renderItem={renderItem}
           ItemSeparatorComponent={renderSeprator}
           style={styles.mgt16}

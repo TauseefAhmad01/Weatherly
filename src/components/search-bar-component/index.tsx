@@ -21,7 +21,7 @@ interface Searchrop extends TextInputProps {
   ViewStyle?: ViewStyle;
   selectedItem?: () => {};
   emptyEnable?: boolean;
-  containerStyle?: ViewStyle;
+  containerStyle?: ViewStyle[];
 }
 const searchInput = (props: Searchrop, ref: React.Ref<TextInput>) => {
   const {

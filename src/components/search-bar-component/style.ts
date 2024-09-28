@@ -27,11 +27,9 @@ export const createStyleSheet = (theme: ThemeProps) =>
       height: normalize(Platform.select({ios: 24, android: 34})),
       width: normalize(Platform.select({ios: 24, android: 34})),
       resizeMode: 'contain',
-      //   backgroundColor: 'red',
     },
     searchContainer: {
       backgroundColor: theme.colors.grayColor,
-      //   padding: normalize(16),
       borderRadius: theme.borderRadius.radius18,
       marginTop: normalize(10),
     },

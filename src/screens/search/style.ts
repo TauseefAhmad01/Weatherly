@@ -104,5 +104,31 @@ export const createStyleSheet = (theme: ThemeProps) => {
     mg16: {
       marginTop: normalize(16),
     },
+    goback: {
+      fontSize: theme.fontSize.font16,
+      lineHeight: normalize(18),
+      fontWeight: '400',
+      color: hexToRgbA(theme.colors.white, 0.8),
+    },
+    buttonContainer: {
+      paddingHorizontal: normalize(16),
+      paddingVertical: normalize(12),
+      backgroundColor: hexToRgbA(theme.colors.black, 0.3),
+      borderRadius: theme.borderRadius.radius8,
+      zIndex: -1,
+    },
+    zindex: {
+      zIndex: 999,
+    },
+    full: {
+      position: 'absolute',
+      justifyContent: 'center',
+      alignItems: 'center',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      zIndex: 1,
+    },
   });
 };

@@ -13,6 +13,7 @@ export const strings = {
   prepChances: 'Prep. Prob',
   noCitySelected: 'No city is selected. Please select the City',
   selectCity: 'Select City',
+  goBack: 'Go back',
 };
 
 export const appConstants = {

@@ -51,13 +51,13 @@ export const createStyleSheet = (theme: ThemeProps) => {
       alignItems: 'center',
     },
     infoIcon: {
-      width: normalize(26),
-      height: normalize(26),
+      width: normalize(22),
+      height: normalize(22),
       marginRight: normalize(4),
     },
     infoText: {
-      fontSize: theme.fontSize.font16,
-      lineHeight: normalize(18),
+      fontSize: theme.fontSize.font14,
+      lineHeight: normalize(16),
       alignSelf: 'center',
       color: theme.colors.white,
     },
@@ -144,7 +144,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
       width: (screenWidth - normalize(64)) / 3,
       alignItems: 'center',
       justifyContent: 'center',
-      height: normalize(50),
+      height: normalize(46),
       borderRadius: theme.borderRadius.radius12,
     },
     detailedListContainer: {

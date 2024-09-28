@@ -42,81 +42,81 @@ const removeValue = async () => {
   console.log('Done.');
 };
 
+function addHttpsToIcons(data) {
+  if (data?.day?.condition?.icon) {
+    data.day.condition.icon = 'https:' + data.day.condition.icon;
+  }
+
+  if (data?.hour?.length > 0) {
+    data.hour.forEach(hourlyData => {
+      if (hourlyData?.condition?.icon) {
+        hourlyData.condition.icon = 'https:' + hourlyData.condition.icon;
+      }
+    });
+  }
+  return data;
+}
+
+const DeepClone = data => JSON.parse(JSON.stringify(data));
+
+export const parseWeatherData = apiResponse => {
+  const parsedData = {
+    location: {
+      name: apiResponse?.location?.name,
+      country: apiResponse?.location?.country,
+    },
+    currentWeather: {
+      temp: apiResponse?.current?.temp_c + strings.degreeC,
+      description: apiResponse?.current?.condition?.text,
+      weatherImage: 'https:' + apiResponse?.current?.condition?.icon,
+      feelsLike: apiResponse?.current?.feelslike_c + strings.degreeC,
+      maxTemp:
+        apiResponse?.forecast?.forecastday?.[0]?.day?.maxtemp_c +
+        strings.degree,
+      minTemp:
+        apiResponse?.forecast?.forecastday?.[0]?.day?.mintemp_c +
+        strings.degree,
+    },
+
+    forecast: apiResponse?.forecast?.forecastday?.map(day => ({
+      date: moment(day?.date).format('dddd'),
+      high: day?.day?.maxtemp_c + strings.degree,
+      low: day?.day?.mintemp_c + strings.degree,
+      icon: 'https:' + day?.day?.condition?.icon,
+      desc: day?.day?.condition?.text,
+      forecastday: addHttpsToIcons(DeepClone(day)),
+    })),
+
+    extraInfo: [
+      {
+        label: 'Humidity',
+        value: apiResponse?.current?.humidity + strings.percentage,
+        image: humidity,
+      },
+      {label: 'UV index', value: apiResponse?.current?.uv, image: uv},
+      {
+        label: 'Sunset Sunrise',
+        value: `${apiResponse?.forecast?.forecastday?.[0]?.astro?.sunrise} / ${apiResponse?.forecast?.forecastday?.[0]?.astro?.sunset}`,
+        image: sunrise,
+        sunrise: true,
+      },
+      {
+        label: 'Wind speed',
+        value: apiResponse?.current?.wind_kph + ' kmph',
+        image: wind,
+      },
+    ],
+  };
+
+  return parsedData;
+};
+
 export default function useGetForecastData() {
   const [resp, setResp] = useState<ForecastResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [showError, setShowError] = useState<boolean>(true);
   const {isConnected} = useNetInfo();
-
-  function addHttpsToIcons(data) {
-    if (data?.day?.condition?.icon) {
-      data.day.condition.icon = 'https:' + data.day.condition.icon;
-    }
-
-    if (data?.hour?.length > 0) {
-      data.hour.forEach(hourlyData => {
-        if (hourlyData?.condition?.icon) {
-          hourlyData.condition.icon = 'https:' + hourlyData.condition.icon;
-        }
-      });
-    }
-    return data;
-  }
-
-  const DeepClone = data => JSON.parse(JSON.stringify(data));
-
-  function parseWeatherData(apiResponse) {
-    const parsedData = {
-      location: {
-        name: apiResponse?.location?.name,
-        country: apiResponse?.location?.country,
-      },
-      currentWeather: {
-        temp: apiResponse?.current?.temp_c + strings.degreeC,
-        description: apiResponse?.current?.condition?.text,
-        weatherImage: 'https:' + apiResponse?.current?.condition?.icon,
-        feelsLike: apiResponse?.current?.feelslike_c + strings.degreeC,
-        maxTemp:
-          apiResponse?.forecast?.forecastday?.[0]?.day?.maxtemp_c +
-          strings.degree,
-        minTemp:
-          apiResponse?.forecast?.forecastday?.[0]?.day?.mintemp_c +
-          strings.degree,
-      },
-
-      forecast: apiResponse?.forecast?.forecastday?.map(day => ({
-        date: moment(day?.date).format('dddd'),
-        high: day?.day?.maxtemp_c + strings.degree,
-        low: day?.day?.mintemp_c + strings.degree,
-        icon: 'https:' + day?.day?.condition?.icon,
-        desc: day?.day?.condition?.text,
-        forecastday: addHttpsToIcons(DeepClone(day)),
-      })),
-
-      extraInfo: [
-        {
-          label: 'Humidity',
-          value: apiResponse?.current?.humidity + strings.percentage,
-          image: humidity,
-        },
-        {label: 'UV index', value: apiResponse?.current?.uv, image: uv},
-        {
-          label: 'Sunset Sunrise',
-          value: `${apiResponse?.forecast?.forecastday?.[0]?.astro?.sunrise} / ${apiResponse?.forecast?.forecastday?.[0]?.astro?.sunset}`,
-          image: sunrise,
-          sunrise: true,
-        },
-        {
-          label: 'Wind speed',
-          value: apiResponse?.current?.wind_kph + ' kmph',
-          image: wind,
-        },
-      ],
-    };
-
-    return parsedData;
-  }
 
   const fetchForecast = async (props: ForecastProps) => {
     const {days = 1, location} = props;

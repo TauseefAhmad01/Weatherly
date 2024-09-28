@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import useAppTheme from '../../theme/theme';
 import {createStyleSheet} from './style';
 import {
@@ -28,11 +28,14 @@ import sunny from '@utils/Json/sunny.json';
 import thunderstorm from '@utils/Json/thunderStorm.json';
 import mist from '@utils/Json/mist.json';
 import rain from '@utils/Json/rain.json';
-import useGetForecastData from '@network/get-forecast-data';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {navigations} from '@config/app-navigation/constants';
 import {Loader} from '@components/loader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  fetchWeatherData,
+  setFutureForecast,
+} from '@network/reducers/weather-reducer';
 
 interface homescreenProps {
   route: {
@@ -44,58 +47,30 @@ interface homescreenProps {
 }
 
 export default function HomeScreen(props: homescreenProps) {
-  const {city, days = 3} = props.route.params || {};
   const {theme} = useAppTheme();
   const styles = createStyleSheet(theme);
   const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+  const {
+    weatherData: data,
+    loading,
+    error: respError,
+  } = useSelector(state => state.weather);
+  const {forecast, currentWeather, location, extraInfo} = data || {};
+  const days = forecast?.length || 3;
+
+  const {currentCity} = useSelector(state => state.location);
   const [forecastDays, setForecastDays] = useState(days);
   const [changedDates, setChangedDates] = useState(days);
 
-  const {
-    fetchForecast,
-    data,
-    loading,
-    error: respError,
-    showError,
-  } = useGetForecastData();
-
-  const {forecast, currentWeather, location, extraInfo} = data || {};
-
-  const storeCityName = async value => {
-    try {
-      await AsyncStorage.setItem(appConstants.CityName, value);
-    } catch (e) {
-      // saving error
-    }
+  const fetchForecastForCity = () => {
+    dispatch(fetchWeatherData({cityName: currentCity, days: forecastDays}));
   };
 
-  const getCityNameFromCache = async () => {
-    try {
-      const value = await AsyncStorage.getItem(appConstants.CityName);
-      if (value !== null) {
-        return value;
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
-  const fetchForecastForCity = async () => {
-    let cityName = city;
-    if (!!city) {
-      storeCityName(city);
-    }
-    if (!city) {
-      cityName = await getCityNameFromCache();
-    }
-
-    fetchForecast({days: forecastDays, location: cityName});
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchForecastForCity();
-    }, [forecastDays, city]),
-  );
+  useEffect(() => {
+    if (!!currentCity) fetchForecastForCity();
+  }, [forecastDays, dispatch, currentCity]);
 
   const navigateToSearch = () => {
     navigation.navigate(navigations.searchScreen);
@@ -140,7 +115,7 @@ export default function HomeScreen(props: homescreenProps) {
         <TextComponent style={styles.oopsHeading}>{strings.oops}</TextComponent>
         <ImageComponent source={error} style={styles.errorImage} />
         <TextComponent style={styles.errorValue}>
-          {showError ? respError : strings.noCitySelected}
+          {strings.noCitySelected}
         </TextComponent>
         <TouchableOpacity
           style={styles.buttonContainer}
@@ -151,6 +126,11 @@ export default function HomeScreen(props: homescreenProps) {
         </TouchableOpacity>
       </View>
     );
+  };
+
+  const navigateToDetailed = data => {
+    dispatch(setFutureForecast(data));
+    navigation.navigate(navigations.detailedScreen);
   };
   const renderExtraItem = ({item, index}) => {
     return (
@@ -173,10 +153,7 @@ export default function HomeScreen(props: homescreenProps) {
     return (
       <TouchableOpacity
         onPress={() => {
-          let params = {
-            forecast: item.forecastday,
-          };
-          navigation.navigate(navigations.detailedScreen, params);
+          navigateToDetailed(item.forecastday);
         }}
         style={styles.forecastContainer}>
         <ImageComponent isUrl uri={item.icon} style={styles.weatherIcon} />
@@ -262,6 +239,7 @@ export default function HomeScreen(props: homescreenProps) {
                 onEndEditing={() => {
                   setForecastDays(Number(changedDates));
                 }}
+                keyboardType="number-pad"
               />
               <TextComponent style={styles.forcastDays}>
                 {strings.forecastDays}
@@ -294,7 +272,7 @@ export default function HomeScreen(props: homescreenProps) {
 
   return (
     <ImageBackground blurRadius={100} source={bgimage} style={styles.container}>
-      <Loader isLoading={loading} showOverlay />
+      <Loader isLoading={loading} showOverlay={!forecast?.length} />
 
       {forecast?.length > 0 ? (
         <FlatList
