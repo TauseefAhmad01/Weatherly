@@ -40,7 +40,8 @@ const locationSlice = createSlice({
           (state.location = action.payload);
       })
       .addCase(fetchAutoCompleteLocations.rejected, (state, action) => {
-        (state.loading = false), (state.error = action.error.message);
+        (state.loading = false),
+          (state.error = action.error.message || 'Failed to fetch locations');
       });
   },
 });

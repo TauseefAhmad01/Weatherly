@@ -14,6 +14,7 @@ export const strings = {
   noCitySelected: 'No city is selected. Please select the City',
   selectCity: 'Select City',
   goBack: 'Go back',
+  error: 'Error',
 };
 
 export const appConstants = {
@@ -35,4 +36,5 @@ export const appConstants = {
   moderateRainTimes: 'Moderate rain at times',
   weather: 'weather',
   CityName: 'CityName',
+  MAX_INPUT_LENGTH: 1,
 };

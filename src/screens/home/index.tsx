@@ -168,6 +168,14 @@ export default function HomeScreen(props: homescreenProps) {
   const renderForcast = () => {
     return (
       <View>
+        {!!respError && (
+          <View style={styles.errorContainer}>
+            <TextComponent style={styles.errorHeading}>
+              {strings.error}
+            </TextComponent>
+            <TextComponent style={styles.errorText}>{respError}</TextComponent>
+          </View>
+        )}
         <View>
           <TouchableOpacity
             onPress={navigateToSearch}
@@ -235,7 +243,7 @@ export default function HomeScreen(props: homescreenProps) {
                 value={changedDates.toString()}
                 onChangeText={setChangedDates}
                 style={styles.dateChanger}
-                maxLength={1}
+                maxLength={appConstants.MAX_INPUT_LENGTH}
                 onEndEditing={() => {
                   setForecastDays(Number(changedDates));
                 }}

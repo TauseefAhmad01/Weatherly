@@ -185,6 +185,7 @@ export const createStyleSheet = (theme: ThemeProps) => {
     },
     pb: {
       paddingBottom: normalize(24),
+      paddingTop: normalize(12),
     },
     emptyScreenContainer: {
       justifyContent: 'center',
@@ -220,6 +221,23 @@ export const createStyleSheet = (theme: ThemeProps) => {
       lineHeight: normalize(24),
       color: hexToRgbA(theme.colors.white, 0.9),
       textAlign: 'center',
+    },
+    errorContainer: {
+      backgroundColor: theme.colors.errorColor,
+      marginTop: normalize(16),
+      paddingVertical: normalize(12),
+      paddingHorizontal: normalize(8),
+    },
+    errorText: {
+      fontSize: theme.fontSize.font12,
+      lineHeight: normalize(16),
+      color: hexToRgbA(theme.colors.black),
+    },
+    errorHeading: {
+      fontSize: theme.fontSize.font14,
+      lineHeight: normalize(16),
+      color: hexToRgbA(theme.colors.black),
+      fontWeight: '500',
     },
   });
 };

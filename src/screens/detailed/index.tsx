@@ -109,6 +109,7 @@ export default function DetailedScreen() {
         </View>
         <FlatList
           bounces={false}
+          keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.detailedListContainer}
           data={selectedForecast.hour || []}

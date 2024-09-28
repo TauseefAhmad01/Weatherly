@@ -30,10 +30,15 @@ export default function SearchCity() {
 
   useEffect(() => {
     inputRef?.current?.focus();
+    return () => {
+      debouncedFetchSearch.cancel();
+    };
   }, []);
 
   const handleSearch = text => {
-    dispatch(fetchAutoCompleteLocations(text));
+    if (text.length > 2) {
+      dispatch(fetchAutoCompleteLocations(text));
+    }
     setSearchValue(text);
   };
 
@@ -42,7 +47,10 @@ export default function SearchCity() {
     dispatch(emptyAutoSuggest());
     navigation.navigate(navigations.homeScreen, {city: item.name});
   };
-  const debouncedFetchSearch = useCallback(debounce(handleSearch, 1000), []);
+  const debouncedFetchSearch = useCallback(debounce(handleSearch, 1000), [
+    handleSearch,
+  ]);
+
   const goBack = () => {
     navigation.goBack();
   };

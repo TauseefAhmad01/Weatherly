@@ -1,5 +1,6 @@
 import {apiEndPoints, apiKey} from '@network/constant';
-import {parseWeatherData} from '@network/get-forecast-data';
+import {parseWeatherData} from '@network/custon-hooks/get-forecast-data';
+
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -44,7 +45,8 @@ const weatherSlice = createSlice({
           (state.error = null);
       })
       .addCase(fetchWeatherData.rejected, (state, action) => {
-        (state.error = action.error.message), (state.loading = false);
+        (state.error = action.error.message || 'Failed to fetch weather'),
+          (state.loading = false);
       });
   },
 });
